@@ -1,0 +1,31 @@
+[package]
+name = "callback_rs"
+description = "A library for callback functions."
+version = "0.0.1"
+edition = "2021"
+authors = ["Daisuke Ito <daisuke.ito.cs@gmail.com>"]
+license = "MIT"
+keywords = []
+readme = "README.md"
+repository = ""
+
+[lib]
+name = "callback_rs"
+path = "src/lib.rs"
+proc-macro = true
+
+[features]
+
+[dependencies]
+syn = { version = "2.0", features = [
+    "extra-traits",
+    "full",
+    "visit",
+    "visit-mut",
+] }
+quote = "1.0"
+proc-macro2 = "1.0"
+
+[dev-dependencies]
+thiserror = "1.0"
+chrono = "0.4"

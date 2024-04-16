@@ -4,6 +4,8 @@ use quote::ToTokens;
 use super::{callback::CallbackType, fn_with_callbacks::FnWithCallbacks};
 
 pub(crate) fn generate(mut func: FnWithCallbacks) -> TokenStream {
+    // FIXME: Support multiple tokens. Like a `exp1 => fun1`.
+    // ref: https://doc.rust-lang.org/reference/procedural-macros.html#attribute-macros
     let before_fns: proc_macro2::TokenStream = func
         .callbacks
         .iter()
@@ -18,10 +20,13 @@ pub(crate) fn generate(mut func: FnWithCallbacks) -> TokenStream {
         .flat_map(|c| c.fns.iter().map(move |expr| quote::quote!(#expr;)))
         .collect();
 
-    // FIXME: If it can generate closure, it will be safer code.
+    // FIXME: Generate a closure. It will be safer code.
     let body = {
         let block = &func.function.block;
-        quote::quote! { let ret = #block; }
+        quote::quote! {
+            #[allow(unused_mut)]
+            let mut ret = #block;
+        }
     };
 
     let new_block = quote::quote! {

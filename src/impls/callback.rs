@@ -19,7 +19,8 @@ impl CallbackType {
         match ident {
             "before_callback" => Some(CallbackType::Before),
             "after_callback" => Some(CallbackType::After),
-            _ => panic!("CallbackType not found"),
+            // Skip other attributes
+            _ => None,
         }
     }
 }

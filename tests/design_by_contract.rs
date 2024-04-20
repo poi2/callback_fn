@@ -22,8 +22,7 @@ mod update_cart_total_price {
 
         // Ensure total_price is correct before and after add_item.
         // Error handling is available in runtime when conditions are not ensure.
-        #[before_callback(self.ensure_total_price()?)]
-        #[after_callback(self.ensure_total_price()?)]
+        #[around_callback(self.ensure_total_price()?)]
         fn add_item(&mut self, item: Item) -> Result<(), String> {
             self.items.push(item);
             self.update_total_price();
@@ -32,8 +31,7 @@ mod update_cart_total_price {
 
         // Ensure total_price is correct before and after clear_items.
         // Error handling is available in runtime when conditions are not ensure.
-        #[before_callback(self.ensure_total_price()?)]
-        #[after_callback(self.ensure_total_price()?)]
+        #[around_callback(self.ensure_total_price()?)]
         fn add_item_with_bug(&mut self, item: Item) -> Result<(), String> {
             self.items.push(item);
             Ok(())

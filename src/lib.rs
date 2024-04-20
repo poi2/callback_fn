@@ -17,3 +17,10 @@ pub fn after_callback(attr: TokenStream, token_stream: TokenStream) -> TokenStre
     let token_stream = token_stream.into();
     impls::generate_after_fn(attr, token_stream).into()
 }
+
+#[proc_macro_attribute]
+pub fn around_callback(attr: TokenStream, token_stream: TokenStream) -> TokenStream {
+    let attr = attr.into();
+    let token_stream = token_stream.into();
+    impls::generate_around_fn(attr, token_stream).into()
+}

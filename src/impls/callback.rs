@@ -12,6 +12,7 @@ pub(crate) struct Callback {
 pub(crate) enum CallbackType {
     Before,
     After,
+    Around,
 }
 
 impl CallbackType {
@@ -19,6 +20,7 @@ impl CallbackType {
         match ident {
             "before_callback" => Some(CallbackType::Before),
             "after_callback" => Some(CallbackType::After),
+            "around_callback" => Some(CallbackType::Around),
             // Skip other attributes
             _ => None,
         }

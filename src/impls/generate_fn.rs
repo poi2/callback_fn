@@ -15,3 +15,10 @@ pub(crate) fn generate_after_fn(attr: TokenStream, token_stream: TokenStream) ->
 
     fn_with_callbacks.generate()
 }
+
+pub(crate) fn generate_around_fn(attr: TokenStream, token_stream: TokenStream) -> TokenStream {
+    let fn_with_callbacks =
+        FnWithCallbacks::new(syn::parse_quote!(#token_stream), CallbackType::Around, attr);
+
+    fn_with_callbacks.generate()
+}

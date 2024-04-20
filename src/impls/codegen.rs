@@ -9,14 +9,14 @@ pub(crate) fn generate(mut func: FnWithCallbacks) -> TokenStream {
     let before_fns: proc_macro2::TokenStream = func
         .callbacks
         .iter()
-        .filter(|c| c.callback_type == CallbackType::Before)
+        .filter(|c| [CallbackType::Before, CallbackType::Around].contains(&c.callback_type))
         .flat_map(|c| c.fns.iter().map(move |expr| quote::quote!(#expr;)))
         .collect();
 
     let after_fns: proc_macro2::TokenStream = func
         .callbacks
         .iter()
-        .filter(|c| c.callback_type == CallbackType::After)
+        .filter(|c| [CallbackType::After, CallbackType::Around].contains(&c.callback_type))
         .flat_map(|c| c.fns.iter().map(move |expr| quote::quote!(#expr;)))
         .collect();
 

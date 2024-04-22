@@ -1,13 +1,13 @@
 [package]
 name = "callback_fn"
 description = "A library for callback functions."
-version = "0.0.1"
+version = "0.1.0"
 edition = "2021"
 authors = ["Daisuke Ito <daisuke.ito.cs@gmail.com>"]
 license = "MIT"
-keywords = []
+keywords = ["callback", "design-by-contract", "macro"]
 readme = "README.md"
-repository = ""
+repository = "https://github.com/poi2/callback_fn"
 
 [lib]
 name = "callback_fn"
@@ -17,14 +17,14 @@ proc-macro = true
 [features]
 
 [dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
 syn = { version = "2.0", features = [
     "extra-traits",
     "full",
     "visit",
     "visit-mut",
 ] }
-quote = "1.0"
-proc-macro2 = "1.0"
 
 [dev-dependencies]
 chrono = "0.4"

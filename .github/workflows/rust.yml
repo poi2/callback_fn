@@ -12,6 +12,17 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  clippy:
+      name: Clippy
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: dtolnay/rust-toolchain@master
+          with:
+            toolchain: stable
+            components: clippy
+        - run: cargo clippy --all -- -D warnings
+
   rustfmt:
     name: rustfmt check
     runs-on: ubuntu-latest
@@ -106,14 +117,6 @@ jobs:
           RUSTC_WRAPPER: sccache
         with:
           command: build
-
-      - name: Run clippy
-        uses: LoliGothick/clippy-check@master
-        env:
-          RUSTC_WRAPPER: sccache
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          deny: warnings
 
       - name: Run tests
         uses: dtolnay/rust-toolchain@stable

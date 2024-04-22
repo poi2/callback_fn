@@ -2,7 +2,7 @@
 // This example shows an update of the cart's total price after adding an item or clearing items.
 #[cfg(test)]
 mod update_cart_total_price {
-    use callback_fn::*;
+    use callback_fn::around_callback;
 
     struct Cart {
         total_price: usize,
@@ -20,7 +20,7 @@ mod update_cart_total_price {
             }
         }
 
-        // Ensure total_price is correct before and after add_item.
+        // Ensure total_price is correct around add_item.
         // Error handling is available in runtime when conditions are not ensure.
         #[around_callback(self.ensure_total_price()?)]
         fn add_item(&mut self, item: Item) -> Result<(), String> {
@@ -29,7 +29,7 @@ mod update_cart_total_price {
             Ok(())
         }
 
-        // Ensure total_price is correct before and after clear_items.
+        // Ensure total_price is correct around clear_items.
         // Error handling is available in runtime when conditions are not ensure.
         #[around_callback(self.ensure_total_price()?)]
         fn add_item_with_bug(&mut self, item: Item) -> Result<(), String> {

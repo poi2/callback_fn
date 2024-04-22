@@ -21,7 +21,6 @@ impl CallbackType {
             "before_callback" => Some(CallbackType::Before),
             "after_callback" => Some(CallbackType::After),
             "around_callback" => Some(CallbackType::Around),
-            // Skip other attributes
             _ => None,
         }
     }

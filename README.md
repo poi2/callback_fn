@@ -110,18 +110,18 @@ Add authentication before UseCase function.
 use callback_fn::before_callback;
 use strum_macros::Display;
 
-#[before_callback(has_permission(current_user, Permission::ReadPost).map_err(UseCaseError::from)?)]
-fn get_post_by_id(current_user: &User, id: usize) -> Result<Post, UseCaseError> {
-    Ok(Post {
+#[before_callback(has_permission(current_user, Permission::ReadArticle).map_err(UseCaseError::from)?)]
+fn get_article_by_id(current_user: &User, id: usize) -> Result<Article, UseCaseError> {
+    Ok(Article {
         id,
         title: "Dummy Title".to_string(),
         body: "Dummy Body".to_string(),
     })
 }
 
-#[before_callback(has_permission(current_user, Permission::CreatePost).map_err(UseCaseError::from)?)]
-fn create_post(current_user: &User, title: String, body: String) -> Result<Post, UseCaseError> {
-    Ok(Post { id: 1, title, body })
+#[before_callback(has_permission(current_user, Permission::CreateArticle).map_err(UseCaseError::from)?)]
+fn create_article(current_user: &User, title: String, body: String) -> Result<Article, UseCaseError> {
+    Ok(Article { id: 1, title, body })
 }
 
 #[derive(Debug)]
@@ -131,8 +131,8 @@ struct User {
 
 #[derive(Debug, Display, PartialEq)]
 pub enum Permission {
-    ReadPost,
-    CreatePost,
+    ReadArticle,
+    CreateArticle,
 }
 
 fn has_permission(user: &User, permission: Permission) -> Result<(), PermissionError> {
@@ -144,7 +144,7 @@ fn has_permission(user: &User, permission: Permission) -> Result<(), PermissionE
 }
 
 #[derive(Debug, PartialEq)]
-struct Post {
+struct Article {
     id: usize,
     title: String,
     body: String,

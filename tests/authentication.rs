@@ -6,18 +6,22 @@ mod authentication {
     use callback_fn::before_callback;
     use strum_macros::Display;
 
-    #[before_callback(has_permission(current_user, Permission::ReadPost).map_err(UseCaseError::from)?)]
-    fn get_post_by_id(current_user: &User, id: usize) -> Result<Post, UseCaseError> {
-        Ok(Post {
+    #[before_callback(has_permission(current_user, Permission::ReadArticle).map_err(UseCaseError::from)?)]
+    fn get_article_by_id(current_user: &User, id: usize) -> Result<Article, UseCaseError> {
+        Ok(Article {
             id,
             title: "Dummy Title".to_string(),
             body: "Dummy Body".to_string(),
         })
     }
 
-    #[before_callback(has_permission(current_user, Permission::CreatePost).map_err(UseCaseError::from)?)]
-    fn create_post(current_user: &User, title: String, body: String) -> Result<Post, UseCaseError> {
-        Ok(Post { id: 1, title, body })
+    #[before_callback(has_permission(current_user, Permission::CreateArticle).map_err(UseCaseError::from)?)]
+    fn create_article(
+        current_user: &User,
+        title: String,
+        body: String,
+    ) -> Result<Article, UseCaseError> {
+        Ok(Article { id: 1, title, body })
     }
 
     #[derive(Debug)]
@@ -27,8 +31,8 @@ mod authentication {
 
     #[derive(Debug, Display, PartialEq)]
     pub enum Permission {
-        ReadPost,
-        CreatePost,
+        ReadArticle,
+        CreateArticle,
     }
 
     fn has_permission(user: &User, permission: Permission) -> Result<(), PermissionError> {
@@ -40,7 +44,7 @@ mod authentication {
     }
 
     #[derive(Debug, PartialEq)]
-    struct Post {
+    struct Article {
         id: usize,
         title: String,
         body: String,
@@ -60,33 +64,33 @@ mod authentication {
 
     fn general_user() -> User {
         User {
-            permissions: vec![Permission::ReadPost],
+            permissions: vec![Permission::ReadArticle],
         }
     }
 
     fn admin_user() -> User {
         User {
-            permissions: vec![Permission::ReadPost, Permission::CreatePost],
+            permissions: vec![Permission::ReadArticle, Permission::CreateArticle],
         }
     }
 
     #[test]
-    fn general_user_can_get_post_by_id() {
-        assert!(get_post_by_id(&general_user(), 1).is_ok());
+    fn general_user_can_get_article_by_id() {
+        assert!(get_article_by_id(&general_user(), 1).is_ok());
     }
 
     #[test]
-    fn admin_user_can_get_post_by_id() {
-        assert!(get_post_by_id(&admin_user(), 1).is_ok());
+    fn admin_user_can_get_article_by_id() {
+        assert!(get_article_by_id(&admin_user(), 1).is_ok());
     }
 
     #[test]
-    fn general_user_can_not_create_post() {
-        assert!(create_post(&general_user(), "title".to_string(), "body".to_string()).is_err());
+    fn general_user_can_not_create_article() {
+        assert!(create_article(&general_user(), "title".to_string(), "body".to_string()).is_err());
     }
 
     #[test]
-    fn admin_user_can_create_post() {
-        assert!(create_post(&admin_user(), "title".to_string(), "body".to_string()).is_ok());
+    fn admin_user_can_create_article() {
+        assert!(create_article(&admin_user(), "title".to_string(), "body".to_string()).is_ok());
     }
 }
